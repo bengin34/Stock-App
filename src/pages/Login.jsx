@@ -9,11 +9,26 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import TextField from "@mui/material/TextField";
+import { object, string, number, date, InferType } from "yup";
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state?.auth);
-  const loginSchema = {};
+
+  let loginSchema = object({
+    email: string()
+      .email("Please enter a valid email")
+      .required("Email can not be blank"),
+    password: string()
+      .required("password can not be blank")
+      .min(8, "password should be at least 8 characters")
+      .max(20, "Password can not be more than 20 characters")
+      .matches(/\d+/, "Password requires at least one number")
+      .matches(/[a-z]/, "Password requires at least one lowercase letter")
+      .matches(/[A-Z]/, "Password requires at least one uppercase letter")
+      .matches(/[!,?{}><%&$#£+-.]+/, "Password requires at least one special letter")
+  });
+
   return (
     <Container maxWidth="lg">
       <Grid
@@ -63,16 +78,31 @@ const Login = () => {
           >
             {({ values, handleChange, handleBlur, errors, touched }) => (
               <Form>
-                <Box sx={{display:"flex" , flexDirection:"column" }} > 
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <TextField
                     label="Email"
                     name="email"
                     id="email"
                     type="email"
                     variant="outlined"
+                    value={values?.email || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     error={touched.email && Boolean(errors.email)}
                     helperText={touched.email && errors.email}
-                   />
+                  />
+                  <TextField
+                    label="Password"
+                    name="password"
+                    id="password"
+                    type="password"
+                    variant="outlined"
+                    value={values?.password || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
                 </Box>
               </Form>
             )}
