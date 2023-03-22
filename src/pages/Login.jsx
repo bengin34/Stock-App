@@ -7,15 +7,13 @@ import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {Formik, Form} from 'formik'
-import  TextField  from "@mui/material/TextField";
-
-
+import { Formik, Form } from "formik";
+import TextField from "@mui/material/TextField";
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state?.auth);
-  const loginSchema = {}
+  const loginSchema = {};
   return (
     <Container maxWidth="lg">
       <Grid
@@ -52,28 +50,33 @@ const Login = () => {
           >
             Login
           </Typography>
-          
 
           <Formik
-          initialValues={{email: "", password:""}}
-          validationSchema={loginSchema}
-          onSubmit={(values,actions) => {
-            //todo login(values) POST isteği
-            //todo navigate
-            actions.resetForm()
-            actions.setSubmitting(false)
-          }}
+            initialValues={{ email: "", password: "" }}
+            validationSchema={loginSchema}
+            onSubmit={(values, actions) => {
+              //todo login(values) POST isteği
+              //todo navigate
+              actions.resetForm();
+              actions.setSubmitting(false);
+            }}
           >
-          {({values, handleChange, handleBlur,errors }) => {
-            <Form>
-              <TextField>
-                
-              </TextField>
-            </Form>
-          }}
+            {({ values, handleChange, handleBlur, errors, touched }) => (
+              <Form>
+                <Box sx={{display:"flex" , flexDirection:"column" }} > 
+                  <TextField
+                    label="Email"
+                    name="email"
+                    id="email"
+                    type="email"
+                    variant="outlined"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                   />
+                </Box>
+              </Form>
+            )}
           </Formik>
-
-
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/register">Do you have not an account?</Link>
