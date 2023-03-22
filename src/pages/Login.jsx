@@ -9,11 +9,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import TextField from "@mui/material/TextField";
-import { object, string, number, date, InferType } from "yup";
+import { object, string } from "yup";
+import LoadingButton from "@mui/lab/LoadingButton";
+import login from "../apiCall/useAuthCall"
 
 const Login = () => {
   const navigate = useNavigate();
-  const { currentUser, error } = useSelector((state) => state?.auth);
+  const { currentUser, error, loading } = useSelector((state) => state?.auth);
+  
 
   let loginSchema = object({
     email: string()
@@ -26,7 +29,10 @@ const Login = () => {
       .matches(/\d+/, "Password requires at least one number")
       .matches(/[a-z]/, "Password requires at least one lowercase letter")
       .matches(/[A-Z]/, "Password requires at least one uppercase letter")
-      .matches(/[!,?{}><%&$#£+-.]+/, "Password requires at least one special letter")
+      .matches(
+        /[!,?{}><%&$#£+-.]+/,
+        "Password requires at least one special letter"
+      ),
   });
 
   return (
@@ -71,6 +77,7 @@ const Login = () => {
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
               //todo login(values) POST isteği
+              login(values)
               //todo navigate
               actions.resetForm();
               actions.setSubmitting(false);
@@ -103,6 +110,9 @@ const Login = () => {
                     error={touched.password && Boolean(errors.password)}
                     helperText={touched.password && errors.password}
                   />
+                  <LoadingButton variant="contained" type="submit" loading={loading }  >
+                    Submit
+                  </LoadingButton>
                 </Box>
               </Form>
             )}
