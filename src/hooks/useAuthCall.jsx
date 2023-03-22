@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { fetchStart } from "../features/authSlice";
+import { fetchFail, fetchStart, loginSuccess } from "../features/authSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const useAuthCall = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+
   const login = async (userInfo) => {
     const BASE_URL = "http://12332.fullstack.clarusway.com/";
     dispatch(fetchStart());
@@ -13,10 +17,13 @@ const useAuthCall = () => {
         `${BASE_URL}account/auth/login/`,
         userInfo
       );
+      dispatch(loginSuccess(data))
+      navigate("/stock")
       console.log(data);
       return data;
     } catch (error) {
       console.log(error);
+      dispatch(fetchFail())
     }
   };
 
