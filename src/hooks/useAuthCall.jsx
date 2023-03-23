@@ -28,6 +28,15 @@ const useAuthCall = () => {
   };
 
   return { login };
+
+
+
+const register = async () => {
+
+}
+
+
+
 };
 
 export default useAuthCall;

@@ -110,7 +110,7 @@ const {login} = useAuthCall()
                     helperText={touched.password && errors.password}
                   />
                   <LoadingButton variant="contained" type="submit" loading={loading }  >
-                    Submit
+                    Login
                   </LoadingButton>
                 </Box>
               </Form>
