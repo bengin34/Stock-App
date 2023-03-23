@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography"
 import MenuListItems from "../components/MenuListItems"
 import { useSelector } from "react-redux"
 import useAuthCall from "../hooks/useAuthCall"
-
+import  {Outlet}  from "react-router-dom"
 
 const drawerWidth = 200
 
@@ -112,7 +112,7 @@ function Dashboard(props) {
         }}
       >
         <Toolbar />
-        
+        <Outlet />
       </Box>
     </Box>
   )
