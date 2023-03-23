@@ -12,33 +12,34 @@ import { Form } from "formik";
 import TextField from "@mui/material/TextField";
 import { object, string } from "yup";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuthCall from "../hooks/useAuthCall"
+import useAuthCall from "../hooks/useAuthCall";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { currentUser, error , loading} = useSelector((state) => state.auth);
-
-
+  const { currentUser, error, loading } = useSelector((state) => state.auth);
+  const { register } = useAuthCall();
 
   const registerScheme = object({
-    username: string().required("User name can not be blank").min(5,"User name should be at least 5 characters"),
-    firstname: string().required("First Name can not be blank"),
-    lastname: string().required("Last Name can not be blank"),
+    username: string()
+      .required("User name can not be blank")
+      .min(5, "User name should be at least 5 characters"),
+    first_name: string().required("First Name can not be blank"),
+    last_name: string().required("Last Name can not be blank"),
     email: string()
-    .email("Please enter a valid email")
-    .required("Email can not be blank"),
-  password: string()
-    .required("password can not be blank")
-    .min(8, "password should be at least 8 characters")
-    .max(20, "Password can not be more than 20 characters")
-    .matches(/\d+/, "Password requires at least one number")
-    .matches(/[a-z]/, "Password requires at least one lowercase letter")
-    .matches(/[A-Z]/, "Password requires at least one uppercase letter")
-    .matches(
-      /[!,?{}><%&$#£+-.]+/,
-      "Password requires at least one special letter"
-    ),
-  })
+      .email("Please enter a valid email")
+      .required("Email can not be blank"),
+    password: string()
+      .required("password can not be blank")
+      .min(8, "password should be at least 8 characters")
+      .max(20, "Password can not be more than 20 characters")
+      .matches(/\d+/, "Password requires at least one number")
+      .matches(/[a-z]/, "Password requires at least one lowercase letter")
+      .matches(/[A-Z]/, "Password requires at least one uppercase letter")
+      .matches(
+        /[!,?{}><%&$#£+-.]+/,
+        "Password requires at least one special letter"
+      ),
+  });
 
   return (
     <Container maxWidth="lg">
@@ -78,13 +79,17 @@ const Register = () => {
             Register
           </Typography>
 
-
-
           <Formik
-            initialValues={{ email: "", password: "", username:"",firstname:"", lastname:"" }}
+            initialValues={{
+              email: "",
+              password: "",
+              username: "",
+              first_name: "",
+              last_name: "",
+            }}
             validationSchema={registerScheme}
             onSubmit={(values, actions) => {
-              //todo register
+              register(values);
               actions.resetForm();
               actions.setSubmitting(false);
             }}
@@ -106,27 +111,27 @@ const Register = () => {
                   />
                   <TextField
                     label="First Name"
-                    name="firstname"
-                    id="firstname"
+                    name="first_name"
+                    id="first_name"
                     type="text"
                     variant="outlined"
-                    value={values?.firstname || ""}
+                    value={values?.first_name || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.firstname && Boolean(errors.firstname)}
-                    helperText={touched.firstname && errors.firstname}
+                    error={touched.first_name && Boolean(errors.first_name)}
+                    helperText={touched.first_name && errors.first_name}
                   />
                   <TextField
                     label="Last Name"
-                    name="lastname"
+                    name="last_name"
                     id="text"
-                    type="lastname"
+                    type="last_name"
                     variant="outlined"
-                    value={values?.lastname || ""}
+                    value={values?.last_name || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.lastname && Boolean(errors.lastname)}
-                    helperText={touched.lastname && errors.lastname}
+                    error={touched.last_name && Boolean(errors.last_name)}
+                    helperText={touched.last_name && errors.last_name}
                   />
                   <TextField
                     label="Email"
@@ -152,24 +157,17 @@ const Register = () => {
                     error={touched.password && Boolean(errors.password)}
                     helperText={touched.password && errors.password}
                   />
-                  <LoadingButton variant="contained" type="submit" loading={loading }  >
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={loading}
+                  >
                     Register
                   </LoadingButton>
                 </Box>
               </Form>
             )}
           </Formik>
-
-
-
-
-
-
-
-
-
-
-
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/">Do you have an account?</Link>
