@@ -1,61 +1,68 @@
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, loginSuccess, logoutSuccess, registerSuccess } from "../features/authSlice";
-import { useNavigate } from "react-router-dom";
+import axios from "axios"
+import {
+  fetchFail,
+  fetchStart,
+  loginSuccess,
+  logoutSuccess,
+  registerSuccess,
+} from "../features/authSlice"
 
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify"
 
 const useAuthCall = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const BASE_URL = "http://12332.fullstack.clarusway.com/";
 
   const login = async (userInfo) => {
-    dispatch(fetchStart());
-
+    dispatch(fetchStart())
     try {
       const { data } = await axios.post(
         `${BASE_URL}account/auth/login/`,
         userInfo
-      );
+      )
       dispatch(loginSuccess(data))
-      navigate("/stock")
-     
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.log(error);
-      dispatch(fetchFail())
-    }
-  };
-
-  
-  
-  
-  const register = async (userInfo) => {
-    
-    dispatch(fetchStart())
-    try {
-      const {data} = await axios.post(`${BASE_URL}account/register/`,{...userInfo, password2:userInfo.password})
-      dispatch(registerSuccess(data))
+      toastSuccessNotify("Login performed")
       navigate("/stock")
       console.log(data)
-      return data
     } catch (error) {
       dispatch(fetchFail())
       console.log(error)
     }
   }
-  
 
-  const logOut =  () => {
-    dispatch(logoutSuccess())
-    navigate("/")
+  const logout = async () => {
+    dispatch(fetchStart())
+    try {
+      await axios.post(`${BASE_URL}account/auth/logout/`)
+      dispatch(logoutSuccess())
+      toastSuccessNotify("Logout performed")
+      navigate("/")
+    } catch (err) {
+      dispatch(fetchFail())
+      toastErrorNotify("Logout can not be performed")
+    }
   }
 
+  const register = async (userInfo) => {
+    dispatch(fetchStart())
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}account/register/`,
+        userInfo
+      )
+      dispatch(registerSuccess(data))
+      toastSuccessNotify("Register performed")
+      navigate("/stock")
+    } catch (err) {
+      dispatch(fetchFail())
+      toastErrorNotify("Register can not be performed")
+    }
+  }
 
-  
-  
-  return { login, register,logOut };
-};
+  return { login, register, logout }
+}
 
-export default useAuthCall;
+export default useAuthCall
