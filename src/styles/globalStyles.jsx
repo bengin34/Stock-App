@@ -2,11 +2,12 @@ export const flex={
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    gap:1,
+    gap:2,
 }
 
 
 export const btnStyle = {
     cursor:"pointer",
-    "&:hover": {color:"red"}
+    "&:hover": {color:"red"},
+   
 }
