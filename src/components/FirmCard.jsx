@@ -36,6 +36,7 @@ export default function FirmCard({firm}) {
       <CardMedia
         sx={{ p:1, objectFit: "contain", height:130 }}
         image={firm?.image}
+        component="img"
         title={firm?.name}
       />
        <Typography variant="body2" color="text.secondary">
