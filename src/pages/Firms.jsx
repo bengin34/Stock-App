@@ -3,6 +3,9 @@ import Typography from "@mui/material/Typography"
 import { useEffect } from "react"
 import axios from "axios"
 import useStockCall from "../hooks/useStockCall"
+import { useSelector } from "react-redux"
+import Grid from "@mui/material/Grid"
+import FirmCard from "../components/FirmCard"
 // import { useDispatch, useSelector } from "react-redux"
 // import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice"
 
@@ -12,12 +15,15 @@ const Firms = () => {
 
 
   const { getStockData } = useStockCall()
+  const {firms} = useSelector(state => state.stock)
+
+
 
   useEffect(() => {
     // getFirms()
     getStockData("firms")
   }, [])
-
+console.log(firms)
   return (
     <div>
       <Typography variant="h4" color="error" mb={3}>
@@ -25,6 +31,17 @@ const Firms = () => {
       </Typography>
 
       <Button variant="contained">New Firm</Button>
+     
+          <Grid container gap={2} >
+       { firms?.map((firm) => (
+        <Grid item key={firm.id} >
+          <FirmCard firm = {firm} />
+        </Grid>
+       )) }
+          
+          </Grid>
+      
+    
     </div>
   )
 }
