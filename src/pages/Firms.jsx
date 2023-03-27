@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import FirmCard from "../components/FirmCard";
 import { flex } from "../styles/globalStyles";
-import FirmModal from "../modals/FirmModal";
+import FirmModal from "../components/modals/FirmModal";
 import { handleBreakpoints } from "@mui/system";
 // import { useDispatch, useSelector } from "react-redux"
 // import { fetchFail, getSuccess, fetchStart } from "../features/stockSlice"
@@ -42,12 +42,24 @@ const Firms = () => {
         New Firm
       </Button>
 
-      <FirmModal handleOpen={handleOpen} handleClose={handleClose} open={open} setOpen={setOpen} info={info} setInfo={setInfo} />
+      <FirmModal
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+        open={open}
+        setOpen={setOpen}
+        info={info}
+        setInfo={setInfo}
+      />
 
       <Grid container sx={flex}>
         {firms?.map((firm) => (
           <Grid item key={firm.id}>
-            <FirmCard firm={firm} setOpen={setOpen} info={info} setInfo={setInfo}  />
+            <FirmCard
+              firm={firm}
+              setOpen={setOpen}
+              info={info}
+              setInfo={setInfo}
+            />
           </Grid>
         ))}
       </Grid>
