@@ -46,7 +46,7 @@ export default function ProductModal({
     });
   };
 
-  console.log(info);
+
   return (
     <div>
       <Modal
