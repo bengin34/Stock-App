@@ -65,7 +65,7 @@ export default function ProductModal({
             onSubmit={handleSubmit}
           >
             <TextField
-              label="Firm Name"
+              label="Product Name"
               name="name"
               id="name"
               type="text"

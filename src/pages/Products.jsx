@@ -14,6 +14,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 
 const Products = () => {
   const { getStockData } = useStockCall();
@@ -69,13 +70,14 @@ const Products = () => {
                 key={product.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" align="right">
                   {index + 1}
                 </TableCell>
                 <TableCell align="right">{product.category}</TableCell>
                 <TableCell align="right">{product.brand}</TableCell>
                 <TableCell align="right">{product.name }</TableCell>
                 <TableCell align="right">{product.stock}</TableCell>
+                <TableCell align="right"><DeleteOutlineIcon /></TableCell>
                 
               </TableRow>
             ))}
