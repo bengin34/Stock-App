@@ -7,13 +7,14 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import useStockCall from "../../hooks/useStockCall";
 
-export default function FirmModal({
+export default function ProductModal({
   open,
   setOpen,
   handleClose,
   info,
   setInfo,
-}) {
+}) 
+{
   //   const [info, setInfo] = useState({
   //     name: "",
   //     phone: "",
@@ -31,9 +32,9 @@ export default function FirmModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (info.id) {
-      putStockData("firms", info);
+      putStockData("products", info);
     } else {
-      postStockData("firms", info);
+      postStockData("products", info);
     }
 
     handleClose();
