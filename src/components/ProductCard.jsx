@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia"
 import Typography from "@mui/material/Typography"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import EditIcon from "@mui/icons-material/Edit"
-import { btnStyle, flex } from "../styles/globalStyle"
+import { btnStyle, flex } from "../styles/globalStyles"
 import useStockCall from "../hooks/useStockCall"
 
 export default function ProductCard({ firm, setOpen, setInfo }) {

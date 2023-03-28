@@ -1,65 +1,60 @@
-import React from "react";
-import { Button } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import useStockCall from "../hooks/useStockCall";
-import { useSelector } from "react-redux";
-import Grid from "@mui/material/Grid";
-import FirmCard from "../components/FirmCard";
-import { flex } from "../styles/globalStyles";
-import FirmModal from "../components/modals/FirmModal";
-import { handleBreakpoints } from "@mui/system";
+import { Button, Grid } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import ProductCard from "../components/ProductCard"
+import ProductModal from "../components/modals/ProductModal"
+import useStockCall from "../hooks/useStockCall"
+import { flex } from "../styles/globalStyles"
 
 const Products = () => {
-  const { getStockData } = useStockCall();
-  const { firms } = useSelector((state) => state.stock);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const { getStockData } = useStockCall()
+  const { products } = useSelector((state) => state.stock)
+  const [open, setOpen] = useState(false)
+
   const [info, setInfo] = useState({
     name: "",
     phone: "",
     address: "",
     image: "",
-  });
+  })
+
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   useEffect(() => {
-    // getFirms()
-    getStockData("firms");
-  }, []);
-  console.log(firms);
+    getStockData("products")
+  }, [])
+
   return (
     <div>
       <Typography variant="h4" color="error" mb={3}>
-        Firm
+        Products
       </Typography>
+
       <Button variant="contained" onClick={handleOpen}>
-        New Firm
+        New Product
       </Button>
 
-      <FirmModal
-        handleOpen={handleOpen}
-        handleClose={handleClose}
+      <ProductModal
         open={open}
-        setOpen={setOpen}
+        handleClose={handleClose}
         info={info}
         setInfo={setInfo}
       />
-
       <Grid container sx={flex}>
-        {firms?.map((firm) => (
-          <Grid item key={firm.id}>
-            <FirmCard
-              firm={firm}
+        {products?.map((product) => (
+          <Grid item key={product.id}>
+            <ProductCard
+              product={product}
               setOpen={setOpen}
-              info={info}
               setInfo={setInfo}
             />
           </Grid>
         ))}
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default Products;
+export default Products

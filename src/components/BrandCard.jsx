@@ -3,10 +3,10 @@ import Card from "@mui/material/Card"
 import CardActions from "@mui/material/CardActions"
 import CardMedia from "@mui/material/CardMedia"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import EditIcon from "@mui/icons-material/Edit"
+import EditIcon from '@mui/icons-material/Edit';
 import { CardHeader } from "@mui/material"
 import useStockCall from "../hooks/useStockCall"
-import { btnStyle, flex } from "../styles/globalStyle"
+import { btnStyle, flex } from "../styles/globalStyles"
 
 const BrandCard = ({ brand, setOpen, setInfo }) => {
   const { deleteStockData } = useStockCall()
