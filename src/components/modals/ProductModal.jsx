@@ -1,59 +1,38 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import { modalStyle } from "../../styles/globalStyles";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
-import useStockCall from "../../hooks/useStockCall";
+import React, { useState } from "react"
+import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select from "@mui/material/Select"
+import { modalStyle } from "../../styles/globalStyles"
+import TextField from "@mui/material/TextField"
+import { Button } from "@mui/material"
+import useStockCall from "../../hooks/useStockCall"
+import { useSelector } from "react-redux"
 
-export default function ProductModal({
-  open,
-  setOpen,
-  handleClose,
-  info,
-  setInfo,
-}) 
-{
-  //   const [info, setInfo] = useState({
-  //     name: "",
-  //     phone: "",
-  //     address: "",
-  //     image: "",
-  //   });
-
-  const { postStockData, putStockData } = useStockCall();
-
+export default function ProductModal({ open, handleClose, info, setInfo }) {
+  const { postStockData } = useStockCall()
+  const { categories } = useSelector((state) => state.stock)
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInfo({ ...info, [name]: value });
-  };
+    const { name, value } = e.target
+    setInfo({ ...info, [name]: value })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (info.id) {
-      putStockData("products", info);
-    } else {
-      postStockData("products", info);
-    }
-
-    handleClose();
-    setInfo({
-      name: "",
-      phone: "",
-      address: "",
-      image: "",
-    });
-  };
-
+    e.preventDefault()
+    postStockData("products", info)
+    handleClose()
+    setInfo({ name: "", phone: "", address: "", image: "" })
+  }
 
   return (
     <div>
       <Modal
         open={open}
         onClose={() => {
-          handleClose();
-          setInfo({ name: "", phone: "", address: "", image: "" });
+          handleClose()
+          setInfo({ name: "", phone: "", address: "", image: "" })
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -64,14 +43,28 @@ export default function ProductModal({
             component="form"
             onSubmit={handleSubmit}
           >
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Categories</InputLabel>
+              <Select
+                labelId="category"
+                id="category"
+                // value={age}
+                label="Category"
+                onChange={handleChange}
+              >
+                {categories?.map((item) => (
+                  <MenuItem value={10}>{item.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
-              label="Product Name"
+              label="Firm Name"
               name="name"
               id="name"
               type="text"
               variant="outlined"
-              value={info?.name}
               required
+              value={info?.name}
               onChange={handleChange}
             />
             <TextField
@@ -94,6 +87,7 @@ export default function ProductModal({
               value={info?.address}
               onChange={handleChange}
             />
+
             <TextField
               label="Image"
               name="image"
@@ -104,13 +98,13 @@ export default function ProductModal({
               value={info?.image}
               onChange={handleChange}
             />
+
             <Button type="submit" variant="contained">
-              {" "}
               Submit Firm
             </Button>
           </Box>
         </Box>
       </Modal>
     </div>
-  );
+  )
 }

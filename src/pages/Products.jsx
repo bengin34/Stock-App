@@ -1,93 +1,105 @@
-import { Button } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import * as React from "react"
+import { Button } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import ProductModal from "../components/modals/ProductModal"
+import useStockCall from "../hooks/useStockCall"
+import Box from "@mui/material/Box"
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid"
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
+import { btnStyle } from "../styles/globalStyles"
 
-import ProductModal from "../components/modals/ProductModal";
-import useStockCall from "../hooks/useStockCall";
 
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
 
 const Products = () => {
-  const { getStockData } = useStockCall();
-  const { products } = useSelector((state) => state.stock);
-  const [open, setOpen] = useState(false);
+  const { getStockData, deleteStockData } = useStockCall()
+  const { products } = useSelector((state) => state.stock)
+  const [open, setOpen] = useState(false)
 
   const [info, setInfo] = useState({
     name: "",
     phone: "",
     address: "",
     image: "",
-  });
+  })
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    getStockData("categories")
+    setOpen(true)
+  }
+  const handleClose = () => setOpen(false)
 
   const columns = [
-    { field: "id", headerName: "#", minWidth: 60, maxWidth:40 ,flex:1 , headerAlign:"center",
-    align:"center",},
+    {
+      field: "id",
+      headerName: "#",
+      minWidth: 40,
+      maxWidth: 70,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
     {
       field: "category",
       headerName: "Category",
-      headerAlign:"center",
-      align:"center",
+      headerAlign: "center",
+      align: "center",
+      flex: 3,
       minWidth: 150,
-      flex:3,
     },
     {
       field: "brand",
       headerName: "Brand",
-      headerAlign:"center",
-      align:"center",
       minWidth: 150,
-      flex:2,
+      headerAlign: "center",
+      align: "center",
+      flex: 2,
     },
     {
       field: "name",
       headerName: "Name",
-      headerAlign:"center",
-      align:"center",
       type: "number",
+      headerAlign: "center",
+      align: "center",
       minWidth: 150,
-      flex:2,
+      flex: 2,
     },
+
     {
       field: "stock",
       headerName: "Stock",
-      description: "This column has a value getter and is not sortable.",
-      headerAlign:"center",
-      align:"center",
       minWidth: 100,
-      flex:0.7,
+      headerAlign: "center",
+      align: "center",
+      flex: 0.7,
     },
     {
       field: "actions",
       headerName: "Actions",
       type: "number",
-      headerAlign:"center",
-      align:"center",
+      headerAlign: "center",
+      align: "center",
       minWidth: 50,
-      flex:1,
+      flex: 1,
+      renderCell: ({ id }) => {
+        return (
+          <GridActionsCellItem
+            icon={<DeleteForeverIcon />}
+            label="Delete"
+            sx={btnStyle}
+            onClick={() => deleteStockData("products", id)}
+          />
+        )
+      },
     },
-  ];
-
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
+  ]
 
   useEffect(() => {
-    getStockData("products");
-  }, []);
+    getStockData("products")
+    getStockData("categories")
+    getStockData("brands")
+  }, [])
 
   return (
     <div>
@@ -106,9 +118,9 @@ const Products = () => {
         setInfo={setInfo}
       />
 
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{ width: "100%", marginTop: "1rem" }}>
         <DataGrid
-        autoHeight
+          autoHeight
           rows={products}
           columns={columns}
           initialState={{
@@ -119,10 +131,12 @@ const Products = () => {
             },
           }}
           pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+           slots={{ toolbar: GridToolbar }}
         />
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default Products;
+export default Products
