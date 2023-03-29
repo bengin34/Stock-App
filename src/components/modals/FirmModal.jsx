@@ -1,10 +1,10 @@
-import React, { useState } from "react"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import { modalStyle } from "../../styles/globalStyles"
-import TextField from "@mui/material/TextField"
-import { Button } from "@mui/material"
-import useStockCall from "../../hooks/useStockCall"
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { modalStyle } from "../../styles/globalStyles";
+import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
+import useStockCall from "../../hooks/useStockCall";
 
 export default function FirmModal({ open, handleClose, info, setInfo }) {
   //   const [info, setInfo] = useState({
@@ -14,32 +14,32 @@ export default function FirmModal({ open, handleClose, info, setInfo }) {
   //     image: "",
   //   })
 
-  const { postStockData, putStockData } = useStockCall()
+  const { postStockData, putStockData } = useStockCall();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setInfo({ ...info, [name]: value })
-  }
+    const { name, value } = e.target;
+    setInfo({ ...info, [name]: value });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (info.id) {
-      putStockData("firms", info)
+      putStockData("firms", info);
     } else {
-      postStockData("firms", info)
+      postStockData("firms", info);
     }
 
-    handleClose()
-    setInfo({ name: "", phone: "", address: "", image: "" })
-  }
+    handleClose();
+    setInfo({ name: "", phone: "", address: "", image: "" });
+  };
 
   return (
     <div>
       <Modal
         open={open}
         onClose={() => {
-          handleClose()
-          setInfo({ name: "", phone: "", address: "", image: "" })
+          handleClose();
+          setInfo({ name: "", phone: "", address: "", image: "" });
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -99,5 +99,5 @@ export default function FirmModal({ open, handleClose, info, setInfo }) {
         </Box>
       </Modal>
     </div>
-  )
+  );
 }
