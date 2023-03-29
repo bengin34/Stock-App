@@ -33,6 +33,14 @@ const stockSlice = createSlice({
       state.token = payload?.token;
       state.error = false;
     },
+    getProCatBrandSuccess: (state, { payload }) => {
+      state.loading = false
+      state.products = payload[0]
+      state.categories= payload[1]
+      state.brands = payload[2]
+    },
+
+
     fetchFail: (state) => {
       state.loading = false;
       state.error = true;
@@ -44,5 +52,6 @@ export const {
   fetchStart,
   getSuccess,
   fetchFail,
+  getProCatBrandSuccess
 } = stockSlice.actions;
 export default stockSlice.reducer;

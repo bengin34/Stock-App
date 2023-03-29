@@ -13,7 +13,7 @@ import { btnStyle } from "../styles/globalStyles"
 
 
 const Products = () => {
-  const { getStockData, deleteStockData } = useStockCall()
+  const { getStockData, deleteStockData, getProCatBrand } = useStockCall()
   const { products } = useSelector((state) => state.stock)
   const [open, setOpen] = useState(false)
 
@@ -96,9 +96,11 @@ const Products = () => {
   ]
 
   useEffect(() => {
-    getStockData("products")
-    getStockData("categories")
-    getStockData("brands")
+    // getStockData("products")
+    // getStockData("categories")
+    // getStockData("brands")
+
+    getProCatBrand()
   }, [])
 
   return (
