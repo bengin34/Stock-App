@@ -6,22 +6,24 @@ import { object, string } from "yup"
 
 export const registerSchema = object({
   username: string()
-    .max(10, "Kullanıcı adı 10 karakterden az olmalıdır.")
+    .max(10, "User name should be lesser than 10 char.")
     .required(),
-  first_name: string().max(20, "İsim 20 karakterden az olmalıdır.").required(),
+  first_name: string().max(20, "First Name should be lesser than 20 char.").required(),
   last_name: string()
-    .max(20, "Soyisim 30 karakterden az olmalıdır.")
+    .max(20, "Last Name should be lesser than 20 char.")
     .required(),
-
   email: string().email().required(),
   password: string()
-    .required("password zorunludur")
-    .min(8, "password en az 8 karakter olmalıdır")
-    .max(20, "password en fazla 20 karakter olmalıdır")
-    .matches(/\d+/, "Password bir sayı içermelidir")
-    .matches(/[a-z]/, "Password bir küçük harf içermelidir")
-    .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
-    .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
+    .required("password can not be blank")
+    .min(8, "password should be at least 8 characters")
+    .max(20, "Password can not be more than 20 characters")
+    .matches(/\d+/, "Password requires at least one number")
+    .matches(/[a-z]/, "Password requires at least one lowercase letter")
+    .matches(/[A-Z]/, "Password requires at least one uppercase letter")
+    .matches(
+      /[!,?{}><%&$#£+-.]+/,
+      "Password requires at least one special letter"
+    ),
 })
 
 const SignUpForm = ({ values, handleChange, errors, touched, handleBlur }) => {
